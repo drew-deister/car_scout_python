@@ -8,6 +8,14 @@ Script to delete all data associated with a phone number:
 """
 
 import sys
+import os
+from pathlib import Path
+
+# Add parent directory to Python path so we can import models
+script_dir = Path(__file__).parent
+project_root = script_dir.parent
+sys.path.insert(0, str(project_root))
+
 from bson import ObjectId
 from models import Thread, Message, CarListing, Visit
 

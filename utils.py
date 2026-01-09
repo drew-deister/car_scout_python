@@ -1229,7 +1229,7 @@ async def propose_available_time(now_ct: datetime, end_date: datetime, existing_
                 # Found an available time, create the visit
                 visit_id = create_visit(thread_id, candidate_time, dealer_phone_number, car_listing_id)
                 return {
-                    "message": f"How about {candidate_time.strftime('%A, %B %d at %I:%M %p')} Central Time? I've scheduled it for then.",
+                    "message": f"I'll come by at {candidate_time.strftime('%A, %B %d at %I:%M %p')} Central Time - thank you.",
                     "visit_scheduled": True
                 }
         

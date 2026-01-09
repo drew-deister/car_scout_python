@@ -57,7 +57,35 @@ This single command will:
 
 ### First Time Setup
 
-1. **Run the startup script** - it handles everything automatically:
+1. **Edit `.env` file** with your credentials:
+Paste in from Drew's .env.
+
+2. **Configure Mobile Text Alerts webhook** (choose one method):
+
+   **Method A - Automatic (Recommended):**
+   ```bash
+   # After running ./start.sh, copy the ngrok URL from the output
+   # Then make a POST request to register the webhook:
+   curl -X POST http://localhost:5001/api/register-webhook \
+     -H "Content-Type: application/json" \
+     -d '{
+       "webhookUrl": "https://your-ngrok-url.ngrok.io/api/webhook/sms"
+     }'
+   ```
+   **Note:** `secret` and `alertEmail` are optional - they'll use values from your `.env` file (`MTA_WEBHOOK_SECRET` and `MTA_ALERT_EMAIL`) if not provided. Only `webhookUrl` is required.
+
+   **Method B - Manual (via Mobile Text Alerts Dashboard):**
+   - Log in to your Mobile Text Alerts account at https://mobiletextalerts.com
+   - Navigate to Settings → Webhooks (or API → Webhooks)
+   - Click "Add Webhook" or "Create Webhook"
+   - Set the webhook URL to: `https://your-ngrok-url.ngrok.io/api/webhook/sms`
+   - Set the event type to: `message-reply` (or `incoming-message`)
+   - Add your webhook secret (from `MTA_WEBHOOK_SECRET` in `.env`)
+   - Save the webhook
+
+3. **Whitelist your IP address in MongoDB**
+
+4. **Run the startup script** - it handles everything automatically:
 ```bash
 ./start.sh
 ```
@@ -70,20 +98,6 @@ The script will:
 - ✅ Start backend, frontend, and ngrok
 - ✅ Display all URLs and webhook information
 
-2. **Edit `.env` file** with your credentials:
-```bash
-PORT=5001
-MONGODB_URI=mongodb://localhost:27017/test
-OPENAI_API_KEY=your_openai_api_key_here
-MTA_API_KEY=your_mobile_text_alerts_api_key_here
-MTA_AUTO_REPLY_TEMPLATE_ID=
-MTA_WEBHOOK_SECRET=your_secret_key_here
-MTA_ALERT_EMAIL=
-```
-
-3. **Configure Mobile Text Alerts webhook**:
-   - Copy the ngrok URL displayed by the script
-   - Set webhook URL to: `https://your-ngrok-url.ngrok.io/api/webhook/sms`
 
 **Note:** If Homebrew is not installed, the script will prompt you. Install it from https://brew.sh or install ngrok manually.
 
