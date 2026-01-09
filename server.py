@@ -486,7 +486,7 @@ async def sms_webhook(webhook: SMSWebhook):
                     # Continue with AI's original response
             else:
                 # Schedule delayed response
-                delay_ms = 0 # random.randint(30000, 60000)  
+                delay_ms = 3000 # random.randint(30000, 60000)  
                 print(f"⏱️  Scheduling response to be sent in {delay_ms // 1000} seconds")
                 
                 async def send_delayed_response():
